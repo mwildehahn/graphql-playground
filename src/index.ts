@@ -1,8 +1,14 @@
+import dotenv from "dotenv";
 import { makeSchema } from "@nexus/schema";
 import { ApolloServer } from "apollo-server";
+import { InMemoryLRUCache } from "apollo-server-caching";
 import { Request } from "express";
+import isEmail from "isemail";
 import path from "path";
 import * as types from "./schema";
+import { UserDataSource } from "./schema";
+
+dotenv.config();
 
 const schema = makeSchema({
   types,
@@ -24,11 +30,35 @@ const schema = makeSchema({
   },
 });
 
-const dataSources = () => ({});
+/**
+ * Initialize data sources
+ */
+const dataSources = () => {
+  const userDataSource = new UserDataSource();
+  userDataSource.initialize({ context: {}, cache: new InMemoryLRUCache() });
 
-// the function that sets up the global context for each resolver, using the req
+  return {
+    users: userDataSource,
+  };
+};
+
+/**
+ * Setup global context
+ */
 const context = async ({ req }: { req: Request }) => {
-  return { user: null };
+  // simple auth check on every request
+  const auth = (req.headers && req.headers.authorization) || "";
+  const email = Buffer.from(auth, "base64").toString("ascii");
+
+  // if the email isn't formatted validly, return null for user
+  if (!isEmail.validate(email)) {
+    return { user: null };
+  }
+
+  // find a user by their email
+  const user = await dataSources().users.fetchOrCreate(email);
+
+  return { user };
 };
 
 const server = new ApolloServer({

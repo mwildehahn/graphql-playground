@@ -3,10 +3,10 @@
 
 
 type Query {
-  viewer: User
+  viewer: UserGQL
 }
 
-type User {
+type UserGQL {
   email: String
   id: ID
 }

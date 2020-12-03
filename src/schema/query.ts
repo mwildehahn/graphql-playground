@@ -4,9 +4,9 @@ export const Query = objectType({
   name: "Query",
   definition(t) {
     t.field("viewer", {
-      type: nullable("User"),
+      type: nullable("UserGQL"),
       resolve: (root, args, ctx) => {
-        return null;
+        return ctx.user || null;
       },
     });
   },
