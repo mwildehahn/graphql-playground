@@ -39,6 +39,33 @@ export const Mutation = objectType({
         };
       },
     });
+
+    t.field("createTask", {
+      type: "CreateTaskResponse",
+      args: { title: nonNull(stringArg()), taskListId: nonNull(idArg()) },
+      resolve: async (_, { title, taskListId }, { dataSources, user }) => {
+        if (user === undefined) return { ok: false };
+
+        // create the task
+        const task = await dataSources.tasks.create({
+          taskListId,
+          title,
+          createdById: user.id,
+        });
+
+        // store the association to the list
+        await dataSources.taskListTasks.create({
+          taskId: task.id,
+          taskListId,
+          createdById: user.id,
+        });
+
+        return {
+          ok: true,
+          task,
+        };
+      },
+    });
   },
 });
 
@@ -48,6 +75,16 @@ export const CreateTaskListResponse = objectType({
     t.boolean("ok");
     t.field("list", {
       type: "TaskListGQL",
+    });
+  },
+});
+
+export const CreateTaskResponse = objectType({
+  name: "CreateTaskResponse",
+  definition(t) {
+    t.boolean("ok");
+    t.field("task", {
+      type: "TaskGQL",
     });
   },
 });

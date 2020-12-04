@@ -48,6 +48,32 @@ resource "aws_dynamodb_table" "user" {
   }
 }
 
+resource "aws_dynamodb_table" "task" {
+  name         = var.task_table_name
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  attribute {
+    name = "createdById"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "createdByIdIndex"
+    hash_key        = "createdById"
+    projection_type = "ALL"
+  }
+
+  tags = {
+    Environment = var.environment
+  }
+}
+
 resource "aws_dynamodb_table" "task_list" {
   name         = var.task_list_table_name
   billing_mode = "PAY_PER_REQUEST"
@@ -66,6 +92,34 @@ resource "aws_dynamodb_table" "task_list" {
   global_secondary_index {
     name            = "createdByIdIndex"
     hash_key        = "createdById"
+    projection_type = "ALL"
+  }
+
+  tags = {
+    Environment = var.environment
+  }
+}
+
+resource "aws_dynamodb_table" "task_list_task" {
+  name         = var.task_list_task_table_name
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "taskListId"
+  range_key    = "taskId"
+
+  attribute {
+    name = "taskListId"
+    type = "S"
+  }
+
+  attribute {
+    name = "taskId"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "taskIdIndex"
+    hash_key        = "taskId"
+    range_key       = "taskListId"
     projection_type = "ALL"
   }
 

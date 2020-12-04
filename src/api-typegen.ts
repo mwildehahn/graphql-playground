@@ -44,6 +44,10 @@ export interface NexusGenObjects {
     list?: NexusGenRootTypes['TaskListGQL'] | null; // TaskListGQL
     ok?: boolean | null; // Boolean
   }
+  CreateTaskResponse: { // root type
+    ok?: boolean | null; // Boolean
+    task?: NexusGenRootTypes['TaskGQL'] | null; // TaskGQL
+  }
   Mutation: {};
   PageInfo: { // root type
     endCursor?: string | null; // String
@@ -52,9 +56,25 @@ export interface NexusGenObjects {
     startCursor?: string | null; // String
   }
   Query: {};
+  TaskGQL: { // root type
+    createdById: string; // String!
+    dateCreated: string; // String!
+    dateUpdated: string; // String!
+    id: string; // ID!
+    title: string; // String!
+  }
+  TaskGQLConnection: { // root type
+    edges?: Array<NexusGenRootTypes['TaskGQLEdge'] | null> | null; // [TaskGQLEdge]
+    nodes?: Array<NexusGenRootTypes['TaskGQL'] | null> | null; // [TaskGQL]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  TaskGQLEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['TaskGQL'] | null; // TaskGQL
+  }
   TaskListGQL: { // root type
     createdById: string; // String!
-    id?: string | null; // ID
+    id: string; // ID!
     title: string; // String!
   }
   TaskListGQLConnection: { // root type
@@ -87,7 +107,12 @@ export interface NexusGenFieldTypes {
     list: NexusGenRootTypes['TaskListGQL'] | null; // TaskListGQL
     ok: boolean | null; // Boolean
   }
+  CreateTaskResponse: { // field return type
+    ok: boolean | null; // Boolean
+    task: NexusGenRootTypes['TaskGQL'] | null; // TaskGQL
+  }
   Mutation: { // field return type
+    createTask: NexusGenRootTypes['CreateTaskResponse'] | null; // CreateTaskResponse
     createTaskList: NexusGenRootTypes['CreateTaskListResponse'] | null; // CreateTaskListResponse
     login: string | null; // String
   }
@@ -100,10 +125,29 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     viewer: NexusGenRootTypes['UserGQL'] | null; // UserGQL
   }
-  TaskListGQL: { // field return type
-    createdBy: NexusGenRootTypes['UserGQL'] | null; // UserGQL
+  TaskGQL: { // field return type
+    createdBy: NexusGenRootTypes['UserGQL']; // UserGQL!
     createdById: string; // String!
-    id: string | null; // ID
+    dateCreated: string; // String!
+    dateUpdated: string; // String!
+    id: string; // ID!
+    lists: NexusGenRootTypes['TaskListGQLConnection'] | null; // TaskListGQLConnection
+    title: string; // String!
+  }
+  TaskGQLConnection: { // field return type
+    edges: Array<NexusGenRootTypes['TaskGQLEdge'] | null> | null; // [TaskGQLEdge]
+    nodes: Array<NexusGenRootTypes['TaskGQL'] | null> | null; // [TaskGQL]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  TaskGQLEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['TaskGQL'] | null; // TaskGQL
+  }
+  TaskListGQL: { // field return type
+    createdBy: NexusGenRootTypes['UserGQL']; // UserGQL!
+    createdById: string; // String!
+    id: string; // ID!
+    tasks: NexusGenRootTypes['TaskGQLConnection'] | null; // TaskGQLConnection
     title: string; // String!
   }
   TaskListGQLConnection: { // field return type
@@ -127,7 +171,12 @@ export interface NexusGenFieldTypeNames {
     list: 'TaskListGQL'
     ok: 'Boolean'
   }
+  CreateTaskResponse: { // field return type name
+    ok: 'Boolean'
+    task: 'TaskGQL'
+  }
   Mutation: { // field return type name
+    createTask: 'CreateTaskResponse'
     createTaskList: 'CreateTaskListResponse'
     login: 'String'
   }
@@ -140,10 +189,29 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     viewer: 'UserGQL'
   }
+  TaskGQL: { // field return type name
+    createdBy: 'UserGQL'
+    createdById: 'String'
+    dateCreated: 'String'
+    dateUpdated: 'String'
+    id: 'ID'
+    lists: 'TaskListGQLConnection'
+    title: 'String'
+  }
+  TaskGQLConnection: { // field return type name
+    edges: 'TaskGQLEdge'
+    nodes: 'TaskGQL'
+    pageInfo: 'PageInfo'
+  }
+  TaskGQLEdge: { // field return type name
+    cursor: 'String'
+    node: 'TaskGQL'
+  }
   TaskListGQL: { // field return type name
     createdBy: 'UserGQL'
     createdById: 'String'
     id: 'ID'
+    tasks: 'TaskGQLConnection'
     title: 'String'
   }
   TaskListGQLConnection: { // field return type name
@@ -164,11 +232,31 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createTask: { // args
+      taskListId: string; // ID!
+      title: string; // String!
+    }
     createTaskList: { // args
       title: string; // String!
     }
     login: { // args
       email: string; // String!
+    }
+  }
+  TaskGQL: {
+    lists: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
+  TaskListGQL: {
+    tasks: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
   }
   UserGQL: {

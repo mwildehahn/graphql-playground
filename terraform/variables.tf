@@ -12,4 +12,8 @@ variable "user_table_name" {}
 
 variable "task_list_table_name" {}
 
+variable "task_table_name" {}
+
+variable "task_list_task_table_name" {}
+
 variable "app" {}
