@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { makeSchema } from "@nexus/schema";
+import { makeSchema, connectionPlugin } from "@nexus/schema";
 import { ApolloServer } from "apollo-server";
 import { InMemoryLRUCache } from "apollo-server-caching";
 import { Request } from "express";
@@ -28,6 +28,7 @@ const schema = makeSchema({
     ],
     contextType: "t.Context",
   },
+  plugins: [connectionPlugin({ includeNodesField: true })],
 });
 
 /**

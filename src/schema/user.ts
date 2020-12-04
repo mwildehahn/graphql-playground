@@ -13,9 +13,9 @@ export const UserGQL = objectType({
   definition(t) {
     t.nonNull.id("id");
     t.nonNull.string("email");
-    t.list.field("taskLists", {
+    t.connectionField("taskLists", {
       type: "TaskListGQL",
-      resolve: async (user, _, { dataSources }) => {
+      nodes: async (user, _, { dataSources }) => {
         return await dataSources.taskLists.fetchByCreatedById(user.id);
       },
     });

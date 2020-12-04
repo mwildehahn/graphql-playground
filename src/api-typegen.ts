@@ -4,9 +4,21 @@
  */
 
 import * as t from "./types"
+import { core, connectionPluginCore } from "@nexus/schema"
 
-
-
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * Adds a Relay-style connection to the type, with numerous options for configuration
+     *
+     * @see https://nexusjs.org/docs/plugins/connection
+     */
+    connectionField<FieldName extends string>(
+      fieldName: FieldName,
+      config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName>
+    ): void
+  }
+}
 
 
 declare global {
@@ -33,11 +45,26 @@ export interface NexusGenObjects {
     ok?: boolean | null; // Boolean
   }
   Mutation: {};
+  PageInfo: { // root type
+    endCursor?: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor?: string | null; // String
+  }
   Query: {};
   TaskListGQL: { // root type
     createdById: string; // String!
     id?: string | null; // ID
     title: string; // String!
+  }
+  TaskListGQLConnection: { // root type
+    edges?: Array<NexusGenRootTypes['TaskListGQLEdge'] | null> | null; // [TaskListGQLEdge]
+    nodes?: Array<NexusGenRootTypes['TaskListGQL'] | null> | null; // [TaskListGQL]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  TaskListGQLEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['TaskListGQL'] | null; // TaskListGQL
   }
   UserGQL: { // root type
     email: string; // String!
@@ -64,6 +91,12 @@ export interface NexusGenFieldTypes {
     createTaskList: NexusGenRootTypes['CreateTaskListResponse'] | null; // CreateTaskListResponse
     login: string | null; // String
   }
+  PageInfo: { // field return type
+    endCursor: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor: string | null; // String
+  }
   Query: { // field return type
     viewer: NexusGenRootTypes['UserGQL'] | null; // UserGQL
   }
@@ -73,10 +106,19 @@ export interface NexusGenFieldTypes {
     id: string | null; // ID
     title: string; // String!
   }
+  TaskListGQLConnection: { // field return type
+    edges: Array<NexusGenRootTypes['TaskListGQLEdge'] | null> | null; // [TaskListGQLEdge]
+    nodes: Array<NexusGenRootTypes['TaskListGQL'] | null> | null; // [TaskListGQL]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  TaskListGQLEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['TaskListGQL'] | null; // TaskListGQL
+  }
   UserGQL: { // field return type
     email: string; // String!
     id: string; // ID!
-    taskLists: Array<NexusGenRootTypes['TaskListGQL'] | null> | null; // [TaskListGQL]
+    taskLists: NexusGenRootTypes['TaskListGQLConnection'] | null; // TaskListGQLConnection
   }
 }
 
@@ -89,6 +131,12 @@ export interface NexusGenFieldTypeNames {
     createTaskList: 'CreateTaskListResponse'
     login: 'String'
   }
+  PageInfo: { // field return type name
+    endCursor: 'String'
+    hasNextPage: 'Boolean'
+    hasPreviousPage: 'Boolean'
+    startCursor: 'String'
+  }
   Query: { // field return type name
     viewer: 'UserGQL'
   }
@@ -98,10 +146,19 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     title: 'String'
   }
+  TaskListGQLConnection: { // field return type name
+    edges: 'TaskListGQLEdge'
+    nodes: 'TaskListGQL'
+    pageInfo: 'PageInfo'
+  }
+  TaskListGQLEdge: { // field return type name
+    cursor: 'String'
+    node: 'TaskListGQL'
+  }
   UserGQL: { // field return type name
     email: 'String'
     id: 'ID'
-    taskLists: 'TaskListGQL'
+    taskLists: 'TaskListGQLConnection'
   }
 }
 
@@ -112,6 +169,14 @@ export interface NexusGenArgTypes {
     }
     login: { // args
       email: string; // String!
+    }
+  }
+  UserGQL: {
+    taskLists: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
   }
 }
@@ -176,11 +241,72 @@ declare global {
   interface NexusGenPluginTypeConfig<TypeName extends string> {
   }
   interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+    
+    /**
+     * Whether the type can be null
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    nullable?: boolean
+    /**
+     * Whether the type is list of values, or just a single value.
+     * If list is true, we assume the type is a list. If list is an array,
+     * we'll assume that it's a list with the depth. The boolean indicates whether
+     * the type is required (non-null), where true = nonNull, false = nullable.
+     * @see declarativeWrappingPlugin
+     */
+    list?: true | boolean[]
+    /**
+     * Whether the type should be non null, `required: true` = `nullable: false`
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    required?: boolean
   }
   interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
+    /**
+     * Whether the type can be null
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    nullable?: boolean
+    /**
+     * Whether the type is list of values, or just a single value.
+     * If list is true, we assume the type is a list. If list is an array,
+     * we'll assume that it's a list with the depth. The boolean indicates whether
+     * the type is required (non-null), where true = nonNull, false = nullable.
+     * @see declarativeWrappingPlugin
+     */
+    list?: true | boolean[]
+    /**
+     * Whether the type should be non null, `required: true` = `nullable: false`
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    required?: boolean
   }
   interface NexusGenPluginSchemaConfig {
   }
   interface NexusGenPluginArgConfig {
+    /**
+     * Whether the type can be null
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    nullable?: boolean
+    /**
+     * Whether the type is list of values, or just a single value.
+     * If list is true, we assume the type is a list. If list is an array,
+     * we'll assume that it's a list with the depth. The boolean indicates whether
+     * the type is required (non-null), where true = nonNull, false = nullable.
+     * @see declarativeWrappingPlugin
+     */
+    list?: true | boolean[]
+    /**
+     * Whether the type should be non null, `required: true` = `nullable: false`
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    required?: boolean
   }
 }
