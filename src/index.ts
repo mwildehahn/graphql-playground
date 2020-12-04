@@ -6,7 +6,7 @@ import { Request } from "express";
 import isEmail from "isemail";
 import path from "path";
 import * as types from "./schema";
-import { UserDataSource } from "./schema";
+import { TaskListDataSource, UserDataSource } from "./schema";
 
 dotenv.config();
 
@@ -37,8 +37,12 @@ const dataSources = () => {
   const userDataSource = new UserDataSource();
   userDataSource.initialize({ context: {}, cache: new InMemoryLRUCache() });
 
+  const taskListDataSource = new TaskListDataSource();
+  taskListDataSource.initialize({ context: {}, cache: new InMemoryLRUCache() });
+
   return {
     users: userDataSource,
+    taskLists: taskListDataSource,
   };
 };
 

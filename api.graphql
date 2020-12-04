@@ -2,11 +2,29 @@
 ### Do not make changes to this file directly
 
 
+type CreateTaskListResponse {
+  list: TaskListGQL
+  ok: Boolean
+}
+
+type Mutation {
+  createTaskList(title: String!): CreateTaskListResponse
+  login(email: String!): String
+}
+
 type Query {
   viewer: UserGQL
 }
 
-type UserGQL {
-  email: String
+type TaskListGQL {
+  createdBy: UserGQL
+  createdById: String!
   id: ID
+  title: String!
+}
+
+type UserGQL {
+  email: String!
+  id: ID!
+  taskLists: [TaskListGQL]
 }

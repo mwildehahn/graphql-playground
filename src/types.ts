@@ -1,6 +1,9 @@
-import { User } from "./schema";
+import { TaskListDataSource, User, UserDataSource } from "./schema";
 
 export interface Context {
-  dataSources: {};
+  dataSources: {
+    users: UserDataSource;
+    taskLists: TaskListDataSource;
+  };
   user?: User;
 }

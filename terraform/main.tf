@@ -48,6 +48,32 @@ resource "aws_dynamodb_table" "user" {
   }
 }
 
+resource "aws_dynamodb_table" "task_list" {
+  name         = var.task_list_table_name
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  attribute {
+    name = "createdById"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "createdByIdIndex"
+    hash_key        = "createdById"
+    projection_type = "ALL"
+  }
+
+  tags = {
+    Environment = var.environment
+  }
+}
+
 resource "aws_iam_user_policy" "api" {
   name = "${var.app}-api-db-${var.environment}"
   user = aws_iam_user.api.name
@@ -58,19 +84,10 @@ resource "aws_iam_user_policy" "api" {
     "Statement": [
         {
             "Action": [
-                "dynamodb:GetItem",
-                "dynamodb:PutItem",
-                "dynamodb:DeleteItem"
+                "dynamodb:*"
             ],
             "Effect": "Allow",
-            "Resource": "${aws_dynamodb_table.user.arn}"
-        },
-        {
-            "Action": [
-                "dynamodb:Query"
-            ],
-            "Effect": "Allow",
-            "Resource": "${aws_dynamodb_table.user.arn}/*"
+            "Resource": "*"
         }
     ]
 }

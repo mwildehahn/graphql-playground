@@ -10,4 +10,6 @@ variable "environment" {}
 
 variable "user_table_name" {}
 
+variable "task_list_table_name" {}
+
 variable "app" {}

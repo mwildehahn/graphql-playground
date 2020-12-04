@@ -1,6 +1,6 @@
 import { objectType } from "@nexus/schema";
 import { DynamoDBDataSource } from "apollo-datasource-dynamodb";
-import { DocumentClient, ClientConfiguration } from "aws-sdk/clients/dynamodb";
+import { ClientConfiguration } from "aws-sdk/clients/dynamodb";
 import { v4 } from "uuid";
 
 export interface User {
@@ -11,8 +11,14 @@ export interface User {
 export const UserGQL = objectType({
   name: "UserGQL",
   definition(t) {
-    t.id("id");
-    t.string("email");
+    t.nonNull.id("id");
+    t.nonNull.string("email");
+    t.list.field("taskLists", {
+      type: "TaskListGQL",
+      resolve: async (user, _, { dataSources }) => {
+        return await dataSources.taskLists.fetchByCreatedById(user.id);
+      },
+    });
   },
 });
 
@@ -56,6 +62,20 @@ export class UserDataSource extends DynamoDBDataSource<User, {}> {
       {
         id: v4(),
         email,
+      },
+      this.ttl
+    );
+
+    return user;
+  }
+
+  public async fetchById(id: string): Promise<User | undefined> {
+    const user = await this.getItem(
+      {
+        TableName: this.tableName,
+        Key: {
+          id,
+        },
       },
       this.ttl
     );

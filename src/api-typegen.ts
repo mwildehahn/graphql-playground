@@ -28,10 +28,20 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  CreateTaskListResponse: { // root type
+    list?: NexusGenRootTypes['TaskListGQL'] | null; // TaskListGQL
+    ok?: boolean | null; // Boolean
+  }
+  Mutation: {};
   Query: {};
-  UserGQL: { // root type
-    email?: string | null; // String
+  TaskListGQL: { // root type
+    createdById: string; // String!
     id?: string | null; // ID
+    title: string; // String!
+  }
+  UserGQL: { // root type
+    email: string; // String!
+    id: string; // ID!
   }
 }
 
@@ -46,26 +56,64 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  CreateTaskListResponse: { // field return type
+    list: NexusGenRootTypes['TaskListGQL'] | null; // TaskListGQL
+    ok: boolean | null; // Boolean
+  }
+  Mutation: { // field return type
+    createTaskList: NexusGenRootTypes['CreateTaskListResponse'] | null; // CreateTaskListResponse
+    login: string | null; // String
+  }
   Query: { // field return type
     viewer: NexusGenRootTypes['UserGQL'] | null; // UserGQL
   }
-  UserGQL: { // field return type
-    email: string | null; // String
+  TaskListGQL: { // field return type
+    createdBy: NexusGenRootTypes['UserGQL'] | null; // UserGQL
+    createdById: string; // String!
     id: string | null; // ID
+    title: string; // String!
+  }
+  UserGQL: { // field return type
+    email: string; // String!
+    id: string; // ID!
+    taskLists: Array<NexusGenRootTypes['TaskListGQL'] | null> | null; // [TaskListGQL]
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  CreateTaskListResponse: { // field return type name
+    list: 'TaskListGQL'
+    ok: 'Boolean'
+  }
+  Mutation: { // field return type name
+    createTaskList: 'CreateTaskListResponse'
+    login: 'String'
+  }
   Query: { // field return type name
     viewer: 'UserGQL'
+  }
+  TaskListGQL: { // field return type name
+    createdBy: 'UserGQL'
+    createdById: 'String'
+    id: 'ID'
+    title: 'String'
   }
   UserGQL: { // field return type name
     email: 'String'
     id: 'ID'
+    taskLists: 'TaskListGQL'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createTaskList: { // args
+      title: string; // String!
+    }
+    login: { // args
+      email: string; // String!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
