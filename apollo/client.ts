@@ -15,6 +15,7 @@ function createApolloClient({ link }: { link?: ApolloLink } = {}) {
     ssrMode: typeof window === "undefined",
     link: link || httpLink(),
     cache: new InMemoryCache(),
+    credentials: "same-origin",
   });
 }
 

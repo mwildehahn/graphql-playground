@@ -4,7 +4,10 @@ import initializeSSR from "../apollo/initialize-ssr";
 import { User } from "../schema";
 
 interface ViewerQueryData {
-  viewer?: User;
+  viewer?: {
+    id: string;
+    email: string;
+  };
 }
 
 const VIEWER_QUERY = gql`
@@ -29,8 +32,8 @@ function Index() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const client = await initializeSSR();
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const client = await initializeSSR({ req, res });
 
   await client.query({
     query: VIEWER_QUERY,

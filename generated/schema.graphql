@@ -15,7 +15,7 @@ type CreateTaskResponse {
 type Mutation {
   createTask(taskListId: ID!, title: String!): CreateTaskResponse
   createTaskList(title: String!): CreateTaskListResponse
-  login(email: String!): String
+  login(email: String!): UserGQL
 }
 
 """

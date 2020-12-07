@@ -114,7 +114,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createTask: NexusGenRootTypes['CreateTaskResponse'] | null; // CreateTaskResponse
     createTaskList: NexusGenRootTypes['CreateTaskListResponse'] | null; // CreateTaskListResponse
-    login: string | null; // String
+    login: NexusGenRootTypes['UserGQL'] | null; // UserGQL
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -178,7 +178,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createTask: 'CreateTaskResponse'
     createTaskList: 'CreateTaskListResponse'
-    login: 'String'
+    login: 'UserGQL'
   }
   PageInfo: { // field return type name
     endCursor: 'String'

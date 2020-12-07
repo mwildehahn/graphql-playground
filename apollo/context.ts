@@ -1,19 +1,21 @@
 import isEmail from "isemail";
+import { IncomingMessage, ServerResponse } from "http";
 
 import dataSources from "../schema/data-sources";
+import { getLoginSession } from "../lib/auth";
 
-export default async function context(token?: string) {
-  console.log("Setting up context", { token });
-  // simple auth check on every request
-  const email = Buffer.from(token || "", "base64").toString("ascii");
-
-  // if the email isn't formatted validly, return null for user
-  if (!isEmail.validate(email)) {
-    return { user: null };
+export default async function context({
+  req,
+  res,
+}: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getLoginSession(req);
+  if (!session) {
+    return { user: null, req, res };
   }
 
-  // find a user by their email
-  const user = await dataSources().users.fetchOrCreate(email);
-
-  return { user };
+  const user = await dataSources().users.fetchOrCreate(session.userId);
+  return { user, req, res };
 }

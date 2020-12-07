@@ -1,15 +1,24 @@
 import { ApolloServer } from "apollo-server-micro";
-import { Request } from "express";
 
 import schema from "../../schema";
 import dataSources from "../../schema/data-sources";
 import context from "../../apollo/context";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const server = new ApolloServer({
   schema,
   dataSources,
-  context: async ({ req }: { req: Request }) => {
-    return context(req.headers.authorization || "");
+  context: async ({
+    req,
+    res,
+  }: {
+    req: NextApiRequest;
+    res: NextApiResponse;
+  }) => context({ req, res }),
+  playground: {
+    settings: {
+      "request.credentials": "same-origin",
+    },
   },
 });
 

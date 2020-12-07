@@ -6,19 +6,21 @@ import {
   objectType,
   stringArg,
 } from "@nexus/schema";
+import { setLoginSession } from "../lib/auth";
 
 export const Mutation = objectType({
   name: "Mutation",
   definition(t) {
-    t.string("login", {
+    t.field("login", {
+      type: "UserGQL",
       args: { email: nonNull(stringArg()) },
-      resolve: async (_, { email }, { dataSources }) => {
+      resolve: async (_, { email }, { res, dataSources }) => {
         const user = await dataSources.users.fetchOrCreate(email);
         if (user) {
-          return Buffer.from(user.email).toString("base64");
+          await setLoginSession(res, { userId: user.id });
         }
 
-        return null;
+        return user;
       },
     });
 
