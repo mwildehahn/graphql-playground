@@ -48,7 +48,6 @@ export const Mutation = objectType({
 
         // create the task
         const task = await dataSources.tasks.create({
-          taskListId,
           title,
           createdById: user.id,
         });

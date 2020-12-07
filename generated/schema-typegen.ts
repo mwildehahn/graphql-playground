@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-import * as t from "./types"
+import * as t from "./../types"
 import { core, connectionPluginCore } from "@nexus/schema"
 
 declare global {
