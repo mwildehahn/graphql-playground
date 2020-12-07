@@ -16,6 +16,6 @@ export default async function context({
     return { user: null, req, res };
   }
 
-  const user = await dataSources().users.fetchOrCreate(session.userId);
+  const user = await dataSources().users.fetchById(session.userId);
   return { user, req, res };
 }
