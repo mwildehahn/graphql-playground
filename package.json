@@ -18,15 +18,14 @@
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.3.4",
     "@nexus/schema": "^0.19.2",
     "apollo-datasource": "^0.2.0",
     "apollo-datasource-dynamodb": "github:mwildehahn/apollo-datasource-dynamodb#dev",
-    "apollo-server": "^2.18.1",
     "apollo-server-micro": "^2.19.0",
     "apollo-server-testing": "^2.18.1",
     "aws-sdk": "^2.802.0",
     "dedent": "^0.7.0",
-    "dotenv": "^8.2.0",
     "graphql": "^15.3.0",
     "graphql-tools": "^4.0.7",
     "isemail": "^3.2.0",
