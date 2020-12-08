@@ -21,6 +21,11 @@ export async function setLoginSession(
 export async function getLoginSession(
   req: NextApiRequest | IncomingMessage
 ): Promise<Session | undefined> {
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    return { userId: authHeader, createdAt: Date.now(), maxAge: MAX_AGE };
+  }
+
   const token = getTokenCookie(req);
   if (!token) return;
 

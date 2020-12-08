@@ -13,7 +13,7 @@ export default async function initializeSSR({
 }) {
   const link = new SchemaLink({
     schema,
-    context: () => context({ req, res }),
+    context: () => context({ req, res, includeDataSources: true }),
   });
 
   return await initializeApollo({

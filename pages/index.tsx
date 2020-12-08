@@ -1,19 +1,17 @@
 import { useQuery, gql } from "@apollo/client";
 import { GetServerSideProps } from "next";
 import initializeSSR from "../apollo/initialize-ssr";
-import { User } from "../schema";
+import TaskLists from "../components/TaskLists";
 
 interface ViewerQueryData {
   viewer?: {
-    id: string;
     email: string;
   };
 }
 
 const VIEWER_QUERY = gql`
-  query ViewerQuery {
+  query {
     viewer {
-      id
       email
     }
   }
@@ -26,7 +24,14 @@ function Index() {
       {loading ? (
         <span>loading...</span>
       ) : (
-        <span>Logged in as: {data.viewer?.email}</span>
+        <div className="container">
+          <div className="flex justify-end w-full">
+            <span>Logged in as: {data.viewer?.email}</span>
+          </div>
+          <div className="flex justify-center">
+            <TaskLists />
+          </div>
+        </div>
       )}
     </div>
   );
