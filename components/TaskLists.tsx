@@ -1,34 +1,26 @@
-import { useQuery, gql } from "@apollo/client";
+import { graphql, useFragment } from "react-relay/hooks";
+import { TaskLists_user$key } from "./__generated__/TaskLists_user.graphql";
 
-interface TaskListsQueryData {
-  viewer: {
-    taskLists: {
-      nodes: {
-        id: string;
-        title: string;
-      }[];
-    };
-  };
+interface PropTypes {
+  user: TaskLists_user$key;
 }
 
-const TASK_LISTS_QUERY = gql`
-  query {
-    viewer {
-      taskLists(first: 10) {
-        nodes {
-          id
-          title
+function TaskLists(props: PropTypes) {
+  const data = useFragment(
+    graphql`
+      fragment TaskLists_user on UserGQL {
+        taskLists(first: 10) {
+          nodes {
+            id
+            title
+          }
         }
       }
-    }
-  }
-`;
+    `,
+    props.user
+  );
 
-function TaskLists() {
-  const { loading, data } = useQuery<TaskListsQueryData>(TASK_LISTS_QUERY);
-  if (loading) return null;
-
-  const items = data.viewer.taskLists.nodes.map((list) => (
+  const items = data.taskLists.nodes.map((list) => (
     <div key={list.id} className="p-6">
       {list.title}
     </div>

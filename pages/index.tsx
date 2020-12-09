@@ -1,54 +1,37 @@
-import { useQuery, gql } from "@apollo/client";
-import { GetServerSideProps } from "next";
-import initializeSSR from "../apollo/initialize-ssr";
+import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import TaskLists from "../components/TaskLists";
-
-interface ViewerQueryData {
-  viewer?: {
-    email: string;
-  };
-}
-
-const VIEWER_QUERY = gql`
-  query {
-    viewer {
-      email
-    }
-  }
-`;
+import { pagesQuery } from "./__generated__/pagesQuery.graphql";
 
 function Index() {
-  const { loading, data } = useQuery<ViewerQueryData>(VIEWER_QUERY);
+  const data = useLazyLoadQuery<pagesQuery>(
+    graphql`
+      query pagesQuery {
+        viewer {
+          email
+
+          ...TaskLists_user
+        }
+      }
+    `,
+    {}
+  );
+
   return (
     <div>
-      {loading ? (
-        <span>loading...</span>
-      ) : (
+      {data.viewer ? (
         <div className="container">
           <div className="flex justify-end w-full">
-            <span>Logged in as: {data.viewer?.email}</span>
+            <span>Logged in as: {data.viewer.email}</span>
           </div>
           <div className="flex justify-center">
-            <TaskLists />
+            <TaskLists user={data.viewer} />
           </div>
         </div>
+      ) : (
+        <span>Login</span>
       )}
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const client = await initializeSSR({ req, res });
-
-  await client.query({
-    query: VIEWER_QUERY,
-  });
-
-  return {
-    props: {
-      initialApolloState: client.cache.extract(),
-    },
-  };
-};
 
 export default Index;

@@ -1,14 +1,17 @@
-import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../apollo/client";
+import { ReactRelayContext } from "react-relay";
+import { useEnvironment } from "../lib/relay";
 
 import "tailwindcss/tailwind.css";
+import { Suspense } from "react";
 
 export default function App({ Component, pageProps }) {
-  const client = useApollo(pageProps.initialApolloState);
+  const environment = useEnvironment(pageProps.initialRecords);
 
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    <Suspense fallback={<div>loading...</div>}>
+      <ReactRelayContext.Provider value={{ environment }}>
+        <Component {...pageProps} />
+      </ReactRelayContext.Provider>
+    </Suspense>
   );
 }
