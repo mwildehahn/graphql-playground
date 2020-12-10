@@ -2,6 +2,7 @@ import { objectType } from "@nexus/schema";
 import { DynamoDBDataSource } from "apollo-datasource-dynamodb";
 import { ClientConfiguration } from "aws-sdk/clients/dynamodb";
 import { v4 } from "uuid";
+import { connectionFromArray } from "../lib/graphql-relay";
 
 export interface User {
   id: string;
@@ -17,8 +18,11 @@ export const UserGQL = objectType({
     t.nonNull.string("email");
     t.connectionField("taskLists", {
       type: "TaskListGQL",
-      nodes: async (user, _, { dataSources }) => {
-        return await dataSources.taskLists.fetchByCreatedById(user.id);
+      resolve: async (user, args, { dataSources }) => {
+        return connectionFromArray(
+          await dataSources.taskLists.fetchByCreatedById(user.id),
+          args
+        );
       },
     });
   },

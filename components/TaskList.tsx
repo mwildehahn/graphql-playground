@@ -1,4 +1,5 @@
 import { graphql, useFragment } from "react-relay/hooks";
+import Link from "next/link";
 import { TaskList$key } from "./__generated__/TaskList.graphql";
 
 interface PropTypes {
@@ -16,7 +17,11 @@ function TaskList({ list }: PropTypes) {
     list
   );
 
-  return <div>{data.title}</div>;
+  return (
+    <Link href={`/task-list/${data.id}`}>
+      <a>{data.title}</a>
+    </Link>
+  );
 }
 
 export default TaskList;

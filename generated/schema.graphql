@@ -80,9 +80,6 @@ type TaskGQLConnection {
   """
   edges: [TaskGQLEdge]
 
-  """Flattened list of TaskGQL type"""
-  nodes: [TaskGQL]
-
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
   """
@@ -97,7 +94,7 @@ type TaskGQLEdge {
   node: TaskGQL
 }
 
-type TaskListGQL {
+type TaskListGQL implements Node {
   createdBy: UserGQL!
   createdById: String!
   id: ID!
@@ -122,9 +119,6 @@ type TaskListGQLConnection {
   https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
   """
   edges: [TaskListGQLEdge]
-
-  """Flattened list of TaskListGQL type"""
-  nodes: [TaskListGQL]
 
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo

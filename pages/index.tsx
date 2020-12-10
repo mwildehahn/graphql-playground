@@ -1,10 +1,19 @@
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { useLazyLoadQuery, graphql } from "react-relay/hooks";
 import TaskLists from "../components/TaskLists";
-import { pagesQuery } from "../queries/pages/__generated__/pagesQuery.graphql";
-import query from "../queries/pages";
+import { pagesQuery } from "./__generated__/pagesQuery.graphql";
+
+const QUERY = graphql`
+  query PagesQuery {
+    viewer {
+      email
+
+      ...TaskLists_user
+    }
+  }
+`;
 
 function Index() {
-  const data = useLazyLoadQuery<pagesQuery>(query, {});
+  const data = useLazyLoadQuery<pagesQuery>(QUERY, {});
 
   return (
     <div className="container flex flex-col justify-center">

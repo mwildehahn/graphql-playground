@@ -60,12 +60,10 @@ export interface NexusGenObjects {
     createdById: string; // String!
     dateCreated: string; // String!
     dateUpdated: string; // String!
-    id: string; // ID!
     title: string; // String!
   }
   TaskGQLConnection: { // root type
     edges?: Array<NexusGenRootTypes['TaskGQLEdge'] | null> | null; // [TaskGQLEdge]
-    nodes?: Array<NexusGenRootTypes['TaskGQL'] | null> | null; // [TaskGQL]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   TaskGQLEdge: { // root type
@@ -74,12 +72,10 @@ export interface NexusGenObjects {
   }
   TaskListGQL: { // root type
     createdById: string; // String!
-    id: string; // ID!
     title: string; // String!
   }
   TaskListGQLConnection: { // root type
     edges?: Array<NexusGenRootTypes['TaskListGQLEdge'] | null> | null; // [TaskListGQLEdge]
-    nodes?: Array<NexusGenRootTypes['TaskListGQL'] | null> | null; // [TaskListGQL]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   TaskListGQLEdge: { // root type
@@ -93,7 +89,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  Node: NexusGenRootTypes['UserGQL'];
+  Node: NexusGenRootTypes['TaskListGQL'] | NexusGenRootTypes['UserGQL'];
 }
 
 export interface NexusGenUnions {
@@ -138,7 +134,6 @@ export interface NexusGenFieldTypes {
   }
   TaskGQLConnection: { // field return type
     edges: Array<NexusGenRootTypes['TaskGQLEdge'] | null> | null; // [TaskGQLEdge]
-    nodes: Array<NexusGenRootTypes['TaskGQL'] | null> | null; // [TaskGQL]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   TaskGQLEdge: { // field return type
@@ -154,7 +149,6 @@ export interface NexusGenFieldTypes {
   }
   TaskListGQLConnection: { // field return type
     edges: Array<NexusGenRootTypes['TaskListGQLEdge'] | null> | null; // [TaskListGQLEdge]
-    nodes: Array<NexusGenRootTypes['TaskListGQL'] | null> | null; // [TaskListGQL]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   TaskListGQLEdge: { // field return type
@@ -206,7 +200,6 @@ export interface NexusGenFieldTypeNames {
   }
   TaskGQLConnection: { // field return type name
     edges: 'TaskGQLEdge'
-    nodes: 'TaskGQL'
     pageInfo: 'PageInfo'
   }
   TaskGQLEdge: { // field return type name
@@ -222,7 +215,6 @@ export interface NexusGenFieldTypeNames {
   }
   TaskListGQLConnection: { // field return type name
     edges: 'TaskListGQLEdge'
-    nodes: 'TaskListGQL'
     pageInfo: 'PageInfo'
   }
   TaskListGQLEdge: { // field return type name
@@ -284,10 +276,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  Node: "UserGQL"
+  Node: "TaskListGQL" | "UserGQL"
 }
 
 export interface NexusGenTypeInterfaces {
+  TaskListGQL: "Node"
   UserGQL: "Node"
 }
 

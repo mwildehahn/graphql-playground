@@ -39,7 +39,7 @@ const schema = makeSchema({
     ],
     contextType: "t.Context",
   },
-  plugins: [connectionPlugin({ includeNodesField: true })],
+  plugins: [connectionPlugin()],
 });
 
 export default schema;

@@ -2,6 +2,7 @@ import { objectType } from "@nexus/schema";
 import { DynamoDBDataSource } from "apollo-datasource-dynamodb";
 import { ApolloError } from "apollo-server";
 import { ClientConfiguration } from "aws-sdk/clients/dynamodb";
+import { toGlobalId } from "graphql-relay";
 import { v4 } from "uuid";
 
 export interface Task {
@@ -15,7 +16,8 @@ export interface Task {
 export const TaskGQL = objectType({
   name: "TaskGQL",
   definition(t) {
-    t.nonNull.id("id");
+    // @ts-ignore should fix this with the generator
+    t.nonNull.id("id", { resolve: (root) => toGlobalId("Task", root.id) });
     t.nonNull.string("title");
     t.nonNull.string("createdById");
     t.nonNull.string("dateCreated");
@@ -32,6 +34,7 @@ export const TaskGQL = objectType({
       type: "TaskListGQL",
       nodes: async (task, _, { dataSources }) => {
         const edges = await dataSources.taskListTasks.fetchListsForTask(
+          // @ts-ignore should fix this with the generator
           task.id
         );
         return await dataSources.taskLists.fetchByIds(
@@ -72,6 +75,18 @@ export class TaskDataSource extends DynamoDBDataSource<Task, {}> {
       .promise();
 
     return (res.Responses?.[this.tableName] || []) as Task[];
+  }
+
+  public async fetchById(id: string): Promise<Task> {
+    return await this.getItem(
+      {
+        TableName: this.tableName,
+        Key: {
+          id,
+        },
+      },
+      this.ttl
+    );
   }
 
   public async create({
