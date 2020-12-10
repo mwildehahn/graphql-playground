@@ -18,6 +18,10 @@ type Mutation {
   login(email: String!): UserGQL
 }
 
+interface Node {
+  id: ID!
+}
+
 """
 PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
 """
@@ -44,6 +48,7 @@ type PageInfo {
 }
 
 type Query {
+  node(id: ID!): Node
   viewer: UserGQL
 }
 
@@ -135,7 +140,7 @@ type TaskListGQLEdge {
   node: TaskListGQL
 }
 
-type UserGQL {
+type UserGQL implements Node {
   email: String!
   id: ID!
   taskLists(

@@ -7,6 +7,7 @@ import * as TaskListTypes from "./task-list";
 import * as TaskListTaskTypes from "./task-list-task";
 import * as MutationTypes from "./mutation";
 import * as QueryTypes from "./query";
+import * as InterfaceTypes from "./interfaces";
 
 export * from "./user";
 export * from "./task";
@@ -23,6 +24,7 @@ const schema = makeSchema({
     TaskListTaskTypes,
     MutationTypes,
     QueryTypes,
+    InterfaceTypes,
   ],
   outputs: {
     schema: path.join(process.cwd(), "generated/schema.graphql"),

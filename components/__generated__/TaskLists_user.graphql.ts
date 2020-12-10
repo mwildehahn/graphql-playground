@@ -6,11 +6,14 @@ import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type TaskLists_user = {
     readonly taskLists: {
-        readonly nodes: ReadonlyArray<{
-            readonly id: string;
-            readonly title: string;
+        readonly edges: ReadonlyArray<{
+            readonly __id: string;
+            readonly node: {
+                readonly " $fragmentRefs": FragmentRefs<"TaskList">;
+            } | null;
         } | null> | null;
     } | null;
+    readonly id: string;
     readonly " $refType": "TaskLists_user";
 };
 export type TaskLists_user$data = TaskLists_user;
@@ -21,57 +24,151 @@ export type TaskLists_user$key = {
 
 
 
-const node: ReaderFragment = {
-  "argumentDefinitions": [],
+const node: ReaderFragment = (function(){
+var v0 = [
+  "taskLists"
+];
+return {
+  "argumentDefinitions": [
+    {
+      "defaultValue": 10,
+      "kind": "LocalArgument",
+      "name": "count"
+    },
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "cursor"
+    }
+  ],
   "kind": "Fragment",
-  "metadata": null,
+  "metadata": {
+    "connection": [
+      {
+        "count": "count",
+        "cursor": "cursor",
+        "direction": "forward",
+        "path": (v0/*: any*/)
+      }
+    ],
+    "refetch": {
+      "connection": {
+        "forward": {
+          "count": "count",
+          "cursor": "cursor"
+        },
+        "backward": null,
+        "path": (v0/*: any*/)
+      },
+      "fragmentPathInResult": [
+        "node"
+      ],
+      "operation": require('./TaskListPaginationQuery.graphql.ts'),
+      "identifierField": "id"
+    }
+  },
   "name": "TaskLists_user",
   "selections": [
     {
-      "alias": null,
-      "args": [
-        {
-          "kind": "Literal",
-          "name": "first",
-          "value": 10
-        }
-      ],
+      "alias": "taskLists",
+      "args": null,
       "concreteType": "TaskListGQLConnection",
       "kind": "LinkedField",
-      "name": "taskLists",
+      "name": "__TaskLists_taskLists_connection",
       "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
-          "concreteType": "TaskListGQL",
+          "concreteType": "TaskListGQLEdge",
           "kind": "LinkedField",
-          "name": "nodes",
+          "name": "edges",
           "plural": true,
           "selections": [
             {
               "alias": null,
               "args": null,
-              "kind": "ScalarField",
-              "name": "id",
+              "concreteType": "TaskListGQL",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "__typename",
+                  "storageKey": null
+                },
+                {
+                  "args": null,
+                  "kind": "FragmentSpread",
+                  "name": "TaskList"
+                }
+              ],
               "storageKey": null
             },
             {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "title",
+              "name": "cursor",
+              "storageKey": null
+            },
+            {
+              "kind": "ClientExtension",
+              "selections": [
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "__id",
+                  "storageKey": null
+                }
+              ]
+            }
+          ],
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "PageInfo",
+          "kind": "LinkedField",
+          "name": "pageInfo",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "endCursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "hasNextPage",
               "storageKey": null
             }
           ],
           "storageKey": null
         }
       ],
-      "storageKey": "taskLists(first:10)"
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
     }
   ],
   "type": "UserGQL",
   "abstractKey": null
 };
-(node as any).hash = 'e3cc53a8ef54d22cdeade88ab2575af1';
+})();
+(node as any).hash = 'a79f3e28e6b48b2c9820a29acc72163e';
 export default node;

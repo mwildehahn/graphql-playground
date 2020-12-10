@@ -93,12 +93,13 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
+  Node: NexusGenRootTypes['UserGQL'];
 }
 
 export interface NexusGenUnions {
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
@@ -123,6 +124,7 @@ export interface NexusGenFieldTypes {
     startCursor: string | null; // String
   }
   Query: { // field return type
+    node: NexusGenRootTypes['Node'] | null; // Node
     viewer: NexusGenRootTypes['UserGQL'] | null; // UserGQL
   }
   TaskGQL: { // field return type
@@ -164,6 +166,9 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     taskLists: NexusGenRootTypes['TaskListGQLConnection'] | null; // TaskListGQLConnection
   }
+  Node: { // field return type
+    id: string; // ID!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
@@ -187,6 +192,7 @@ export interface NexusGenFieldTypeNames {
     startCursor: 'String'
   }
   Query: { // field return type name
+    node: 'Node'
     viewer: 'UserGQL'
   }
   TaskGQL: { // field return type name
@@ -228,6 +234,9 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     taskLists: 'TaskListGQLConnection'
   }
+  Node: { // field return type name
+    id: 'ID'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -241,6 +250,11 @@ export interface NexusGenArgTypes {
     }
     login: { // args
       email: string; // String!
+    }
+  }
+  Query: {
+    node: { // args
+      id: string; // ID!
     }
   }
   TaskGQL: {
@@ -270,9 +284,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  Node: "UserGQL"
 }
 
 export interface NexusGenTypeInterfaces {
+  UserGQL: "Node"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
@@ -281,7 +297,7 @@ export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = never;
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
@@ -289,7 +305,7 @@ export type NexusGenUnionNames = never;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = never;
+export type NexusGenAbstractsUsingStrategyResolveType = "Node";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

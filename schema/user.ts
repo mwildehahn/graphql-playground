@@ -11,6 +11,8 @@ export interface User {
 export const UserGQL = objectType({
   name: "UserGQL",
   definition(t) {
+    t.implements("Node");
+
     t.nonNull.id("id");
     t.nonNull.string("email");
     t.connectionField("taskLists", {

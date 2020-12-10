@@ -17,7 +17,7 @@ let relayEnvironment: Environment;
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise
 async function fetchQuery(request: RequestParameters, variables: Variables) {
-  const response = await fetch("/api/graphql", {
+  const response = await fetch("http://localhost:3000/api/graphql", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -48,7 +48,7 @@ function createEnvironment(initialRecords: any): Environment {
   });
 }
 
-export function initEnvironment(initialRecords: any): Environment {
+export function initEnvironment(initialRecords?: any): Environment {
   // Create a network layer from the fetch function
   const environment = relayEnvironment ?? createEnvironment(initialRecords);
 

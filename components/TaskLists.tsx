@@ -1,28 +1,37 @@
-import { graphql, useFragment } from "react-relay/hooks";
+import { graphql, useFragment, usePaginationFragment } from "react-relay/hooks";
+import TaskList from "./TaskList";
 import { TaskLists_user$key } from "./__generated__/TaskLists_user.graphql";
 
 interface PropTypes {
   user: TaskLists_user$key;
 }
 
-function TaskLists(props: PropTypes) {
-  const data = useFragment(
+function TaskLists({ user }: PropTypes) {
+  const { data } = usePaginationFragment(
     graphql`
-      fragment TaskLists_user on UserGQL {
-        taskLists(first: 10) {
-          nodes {
-            id
-            title
+      fragment TaskLists_user on UserGQL
+        @argumentDefinitions(
+          cursor: { type: "String" }
+          count: { type: "Int", defaultValue: 10 }
+        )
+        @refetchable(queryName: "TaskListPaginationQuery") {
+        taskLists(after: $cursor, first: $count)
+          @connection(key: "TaskLists_taskLists") {
+          edges {
+            __id
+            node {
+              ...TaskList
+            }
           }
         }
       }
     `,
-    props.user
+    user
   );
 
-  const items = data.taskLists.nodes.map((list) => (
-    <div key={list.id} className="p-6">
-      {list.title}
+  const items = data.taskLists.edges.map((edge) => (
+    <div key={edge.__id} className="p-6">
+      <TaskList list={edge.node} />
     </div>
   ));
 
