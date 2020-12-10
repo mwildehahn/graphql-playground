@@ -57,6 +57,7 @@ export interface NexusGenObjects {
   }
   Query: {};
   TaskGQL: { // root type
+    completed?: boolean | null; // Boolean
     createdById: string; // String!
     dateCreated: string; // String!
     dateUpdated: string; // String!
@@ -89,7 +90,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  Node: NexusGenRootTypes['TaskListGQL'] | NexusGenRootTypes['UserGQL'];
+  Node: NexusGenRootTypes['TaskGQL'] | NexusGenRootTypes['TaskListGQL'] | NexusGenRootTypes['UserGQL'];
 }
 
 export interface NexusGenUnions {
@@ -124,6 +125,7 @@ export interface NexusGenFieldTypes {
     viewer: NexusGenRootTypes['UserGQL'] | null; // UserGQL
   }
   TaskGQL: { // field return type
+    completed: boolean | null; // Boolean
     createdBy: NexusGenRootTypes['UserGQL']; // UserGQL!
     createdById: string; // String!
     dateCreated: string; // String!
@@ -190,6 +192,7 @@ export interface NexusGenFieldTypeNames {
     viewer: 'UserGQL'
   }
   TaskGQL: { // field return type name
+    completed: 'Boolean'
     createdBy: 'UserGQL'
     createdById: 'String'
     dateCreated: 'String'
@@ -276,10 +279,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  Node: "TaskListGQL" | "UserGQL"
+  Node: "TaskGQL" | "TaskListGQL" | "UserGQL"
 }
 
 export interface NexusGenTypeInterfaces {
+  TaskGQL: "Node"
   TaskListGQL: "Node"
   UserGQL: "Node"
 }

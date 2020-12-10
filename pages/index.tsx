@@ -3,7 +3,7 @@ import TaskLists from "../components/TaskLists";
 import { pagesQuery } from "./__generated__/pagesQuery.graphql";
 
 const QUERY = graphql`
-  query PagesQuery {
+  query pagesQuery {
     viewer {
       email
 

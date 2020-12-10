@@ -9,7 +9,7 @@ export type TaskListTasks__task_list = {
         readonly edges: ReadonlyArray<{
             readonly __id: string;
             readonly node: {
-                readonly id: string;
+                readonly " $fragmentRefs": FragmentRefs<"TaskRow_task">;
             } | null;
         } | null> | null;
     } | null;
@@ -27,14 +27,7 @@ export type TaskListTasks__task_list$key = {
 const node: ReaderFragment = (function(){
 var v0 = [
   "tasks"
-],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
+];
 return {
   "argumentDefinitions": [
     {
@@ -100,13 +93,17 @@ return {
               "name": "node",
               "plural": false,
               "selections": [
-                (v1/*: any*/),
                 {
                   "alias": null,
                   "args": null,
                   "kind": "ScalarField",
                   "name": "__typename",
                   "storageKey": null
+                },
+                {
+                  "args": null,
+                  "kind": "FragmentSpread",
+                  "name": "TaskRow_task"
                 }
               ],
               "storageKey": null
@@ -161,11 +158,17 @@ return {
       ],
       "storageKey": null
     },
-    (v1/*: any*/)
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    }
   ],
   "type": "TaskListGQL",
   "abstractKey": null
 };
 })();
-(node as any).hash = '72b37662df1b5171ab8d3f8ed5c89066';
+(node as any).hash = '8280a8f6a8ba1d57bdee4867bed4590b';
 export default node;

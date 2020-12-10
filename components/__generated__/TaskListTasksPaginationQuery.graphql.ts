@@ -38,6 +38,7 @@ fragment TaskListTasks__task_list_1G22uz on TaskListGQL {
   tasks(after: $cursor, first: $count) {
     edges {
       node {
+        ...TaskRow_task
         id
         __typename
       }
@@ -49,6 +50,11 @@ fragment TaskListTasks__task_list_1G22uz on TaskListGQL {
     }
   }
   id
+}
+
+fragment TaskRow_task on TaskGQL {
+  id
+  title
 }
 */
 
@@ -185,6 +191,13 @@ return {
                         "plural": false,
                         "selections": [
                           (v3/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "title",
+                            "storageKey": null
+                          },
                           (v2/*: any*/)
                         ],
                         "storageKey": null
@@ -258,14 +271,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "270b96091b78ce3737282814c951d350",
+    "cacheID": "82587d5167971a1dd7526f80edb95d35",
     "id": null,
     "metadata": {},
     "name": "TaskListTasksPaginationQuery",
     "operationKind": "query",
-    "text": "query TaskListTasksPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...TaskListTasks__task_list_1G22uz\n    id\n  }\n}\n\nfragment TaskListTasks__task_list_1G22uz on TaskListGQL {\n  tasks(after: $cursor, first: $count) {\n    edges {\n      node {\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
+    "text": "query TaskListTasksPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...TaskListTasks__task_list_1G22uz\n    id\n  }\n}\n\nfragment TaskListTasks__task_list_1G22uz on TaskListGQL {\n  tasks(after: $cursor, first: $count) {\n    edges {\n      node {\n        ...TaskRow_task\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n\nfragment TaskRow_task on TaskGQL {\n  id\n  title\n}\n"
   }
 };
 })();
-(node as any).hash = '72b37662df1b5171ab8d3f8ed5c89066';
+(node as any).hash = '8280a8f6a8ba1d57bdee4867bed4590b';
 export default node;

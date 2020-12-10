@@ -4,24 +4,24 @@
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type IdQueryVariables = {
+export type TaskListIdQueryVariables = {
     id: string;
 };
-export type IdQueryResponse = {
+export type TaskListIdQueryResponse = {
     readonly node: {
         readonly title?: string;
         readonly " $fragmentRefs": FragmentRefs<"TaskListTasks__task_list">;
     } | null;
 };
-export type IdQuery = {
-    readonly response: IdQueryResponse;
-    readonly variables: IdQueryVariables;
+export type TaskListIdQuery = {
+    readonly response: TaskListIdQueryResponse;
+    readonly variables: TaskListIdQueryVariables;
 };
 
 
 
 /*
-query IdQuery(
+query TaskListIdQuery(
   $id: ID!
 ) {
   node(id: $id) {
@@ -38,6 +38,7 @@ fragment TaskListTasks__task_list on TaskListGQL {
   tasks(first: 10) {
     edges {
       node {
+        ...TaskRow_task
         id
         __typename
       }
@@ -49,6 +50,11 @@ fragment TaskListTasks__task_list on TaskListGQL {
     }
   }
   id
+}
+
+fragment TaskRow_task on TaskGQL {
+  id
+  title
 }
 */
 
@@ -100,7 +106,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "IdQuery",
+    "name": "TaskListIdQuery",
     "selections": [
       {
         "alias": null,
@@ -134,7 +140,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "IdQuery",
+    "name": "TaskListIdQuery",
     "selections": [
       {
         "alias": null,
@@ -175,6 +181,7 @@ return {
                         "plural": false,
                         "selections": [
                           (v4/*: any*/),
+                          (v2/*: any*/),
                           (v3/*: any*/)
                         ],
                         "storageKey": null
@@ -248,14 +255,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9efd6e19826d245e20b5d69335e6c310",
+    "cacheID": "18b78dfb0eb4e68ff9682b3e18c59080",
     "id": null,
     "metadata": {},
-    "name": "IdQuery",
+    "name": "TaskListIdQuery",
     "operationKind": "query",
-    "text": "query IdQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on TaskListGQL {\n      title\n      ...TaskListTasks__task_list\n    }\n    id\n  }\n}\n\nfragment TaskListTasks__task_list on TaskListGQL {\n  tasks(first: 10) {\n    edges {\n      node {\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
+    "text": "query TaskListIdQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on TaskListGQL {\n      title\n      ...TaskListTasks__task_list\n    }\n    id\n  }\n}\n\nfragment TaskListTasks__task_list on TaskListGQL {\n  tasks(first: 10) {\n    edges {\n      node {\n        ...TaskRow_task\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n\nfragment TaskRow_task on TaskGQL {\n  id\n  title\n}\n"
   }
 };
 })();
-(node as any).hash = '6a46fc11e435fda40e4b0c5bc533ee22';
+(node as any).hash = '3a11b0c779701198d0896566798ee0c4';
 export default node;

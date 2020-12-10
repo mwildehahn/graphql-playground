@@ -8,6 +8,7 @@ import { v4 } from "uuid";
 export interface Task {
   id: string;
   title: string;
+  completed: boolean;
   createdById: string;
   dateCreated: string;
   dateUpdated: string;
@@ -16,8 +17,11 @@ export interface Task {
 export const TaskGQL = objectType({
   name: "TaskGQL",
   definition(t) {
+    t.implements("Node");
+
     // @ts-ignore should fix this with the generator
     t.nonNull.id("id", { resolve: (root) => toGlobalId("Task", root.id) });
+    t.boolean("completed");
     t.nonNull.string("title");
     t.nonNull.string("createdById");
     t.nonNull.string("dateCreated");
@@ -74,18 +78,22 @@ export class TaskDataSource extends DynamoDBDataSource<Task, {}> {
       })
       .promise();
 
-    return (res.Responses?.[this.tableName] || []) as Task[];
+    return ((res.Responses?.[this.tableName] || []) as Task[]).map(
+      this.ensureShape
+    );
   }
 
   public async fetchById(id: string): Promise<Task> {
-    return await this.getItem(
-      {
-        TableName: this.tableName,
-        Key: {
-          id,
+    return this.ensureShape(
+      await this.getItem(
+        {
+          TableName: this.tableName,
+          Key: {
+            id,
+          },
         },
-      },
-      this.ttl
+        this.ttl
+      )
     );
   }
 
@@ -100,9 +108,17 @@ export class TaskDataSource extends DynamoDBDataSource<Task, {}> {
     return await this.put({
       id: v4(),
       title,
+      completed: false,
       createdById,
       dateCreated: now,
       dateUpdated: now,
     });
+  }
+
+  private ensureShape(task: Task): Task {
+    return {
+      ...task,
+      completed: !!task.completed,
+    };
   }
 }
