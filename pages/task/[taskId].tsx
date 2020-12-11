@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
-import TaskListTasks from "../../components/TaskListTasks";
 import { TaskIdQuery } from "./__generated__/TaskIdQuery.graphql";
 
 const QUERY = graphql`
   query TaskIdQuery($id: ID!) {
     node(id: $id) {
       ... on TaskGQL {
+        id
         title
       }
     }
@@ -23,6 +23,7 @@ function TaskListPage() {
 
   return (
     <div>
+      <div>Task ID: {data.node.id}</div>
       <div>{data.node.title}</div>
     </div>
   );

@@ -7,9 +7,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "next dev",
-    "build:nexus-typegen": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only schema",
+    "build:nexus": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only schema",
     "relay": "relay-compiler",
-    "build": "npm run build:nexus-typegen && next build",
+    "build": "npm run build:nexus && next build",
     "start": "next start"
   },
   "jest": {

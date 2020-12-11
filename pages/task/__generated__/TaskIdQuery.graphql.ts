@@ -8,6 +8,7 @@ export type TaskIdQueryVariables = {
 };
 export type TaskIdQueryResponse = {
     readonly node: {
+        readonly id?: string;
         readonly title?: string;
     } | null;
 };
@@ -25,6 +26,7 @@ query TaskIdQuery(
   node(id: $id) {
     __typename
     ... on TaskGQL {
+      id
       title
     }
     id
@@ -48,18 +50,18 @@ v1 = [
   }
 ],
 v2 = {
-  "kind": "InlineFragment",
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "title",
-      "storageKey": null
-    }
-  ],
-  "type": "TaskGQL",
-  "abstractKey": null
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "title",
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -76,7 +78,15 @@ return {
         "name": "node",
         "plural": false,
         "selections": [
-          (v2/*: any*/)
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v2/*: any*/),
+              (v3/*: any*/)
+            ],
+            "type": "TaskGQL",
+            "abstractKey": null
+          }
         ],
         "storageKey": null
       }
@@ -105,28 +115,29 @@ return {
             "name": "__typename",
             "storageKey": null
           },
+          (v2/*: any*/),
           {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
-          (v2/*: any*/)
+            "kind": "InlineFragment",
+            "selections": [
+              (v3/*: any*/)
+            ],
+            "type": "TaskGQL",
+            "abstractKey": null
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "a8ac370dbaf27c8152065efb58cfe067",
+    "cacheID": "7b7102c1f5ded9c34a4239cbaccbf914",
     "id": null,
     "metadata": {},
     "name": "TaskIdQuery",
     "operationKind": "query",
-    "text": "query TaskIdQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on TaskGQL {\n      title\n    }\n    id\n  }\n}\n"
+    "text": "query TaskIdQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on TaskGQL {\n      id\n      title\n    }\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '77f5d6eb5941b5af78a578ba6b649ca7';
+(node as any).hash = 'bb14e3d0435c3c131f1f5abdd58b88fa';
 export default node;

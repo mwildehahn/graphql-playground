@@ -2,6 +2,11 @@
 ### Do not make changes to this file directly
 
 
+input CreateTaskData {
+  taskListId: String!
+  title: String!
+}
+
 type CreateTaskListResponse {
   list: TaskListGQL
   ok: Boolean
@@ -9,11 +14,11 @@ type CreateTaskListResponse {
 
 type CreateTaskResponse {
   ok: Boolean
-  task: TaskGQL
+  taskEdge: TaskGQLEdge
 }
 
 type Mutation {
-  createTask(taskListId: ID!, title: String!): CreateTaskResponse
+  createTask(data: CreateTaskData!): CreateTaskResponse
   createTaskList(title: String!): CreateTaskListResponse
   login(email: String!): UserGQL
 }

@@ -26,6 +26,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreateTaskData: { // input type
+    taskListId: string; // String!
+    title: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -46,7 +50,7 @@ export interface NexusGenObjects {
   }
   CreateTaskResponse: { // root type
     ok?: boolean | null; // Boolean
-    task?: NexusGenRootTypes['TaskGQL'] | null; // TaskGQL
+    taskEdge?: NexusGenRootTypes['TaskGQLEdge'] | null; // TaskGQLEdge
   }
   Mutation: {};
   PageInfo: { // root type
@@ -107,7 +111,7 @@ export interface NexusGenFieldTypes {
   }
   CreateTaskResponse: { // field return type
     ok: boolean | null; // Boolean
-    task: NexusGenRootTypes['TaskGQL'] | null; // TaskGQL
+    taskEdge: NexusGenRootTypes['TaskGQLEdge'] | null; // TaskGQLEdge
   }
   Mutation: { // field return type
     createTask: NexusGenRootTypes['CreateTaskResponse'] | null; // CreateTaskResponse
@@ -174,7 +178,7 @@ export interface NexusGenFieldTypeNames {
   }
   CreateTaskResponse: { // field return type name
     ok: 'Boolean'
-    task: 'TaskGQL'
+    taskEdge: 'TaskGQLEdge'
   }
   Mutation: { // field return type name
     createTask: 'CreateTaskResponse'
@@ -237,8 +241,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createTask: { // args
-      taskListId: string; // ID!
-      title: string; // String!
+      data: NexusGenInputs['CreateTaskData']; // CreateTaskData!
     }
     createTaskList: { // args
       title: string; // String!
@@ -290,7 +293,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 
