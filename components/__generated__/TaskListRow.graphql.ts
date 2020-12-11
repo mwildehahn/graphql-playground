@@ -4,15 +4,15 @@
 
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type TaskList = {
+export type TaskListRow = {
     readonly id: string;
     readonly title: string;
-    readonly " $refType": "TaskList";
+    readonly " $refType": "TaskListRow";
 };
-export type TaskList$data = TaskList;
-export type TaskList$key = {
-    readonly " $data"?: TaskList$data;
-    readonly " $fragmentRefs": FragmentRefs<"TaskList">;
+export type TaskListRow$data = TaskListRow;
+export type TaskListRow$key = {
+    readonly " $data"?: TaskListRow$data;
+    readonly " $fragmentRefs": FragmentRefs<"TaskListRow">;
 };
 
 
@@ -21,7 +21,7 @@ const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "TaskList",
+  "name": "TaskListRow",
   "selections": [
     {
       "alias": null,
@@ -41,5 +41,5 @@ const node: ReaderFragment = {
   "type": "TaskListGQL",
   "abstractKey": null
 };
-(node as any).hash = '3a4798575070106bf7e9d22927d42b87';
+(node as any).hash = '6aafc2d9cb8b33c20434cddb3ef0691d';
 export default node;

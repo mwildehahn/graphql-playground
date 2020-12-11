@@ -17,5 +17,9 @@ export default function TaskRow({ task }: PropTypes) {
     task
   );
 
-  return <Link href={`/task/${data.id}`}>{data.title}</Link>;
+  return (
+    <Link href={`/task/${data.id}`} prefetch>
+      {data.title}
+    </Link>
+  );
 }

@@ -27,7 +27,7 @@ query pagesQuery {
   }
 }
 
-fragment TaskList on TaskListGQL {
+fragment TaskListRow on TaskListGQL {
   id
   title
 }
@@ -36,7 +36,7 @@ fragment TaskLists_user on UserGQL {
   taskLists(first: 10) {
     edges {
       node {
-        ...TaskList
+        ...TaskListRow
         id
         __typename
       }
@@ -224,12 +224,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "64b7abc43d90758572404c8462accb38",
+    "cacheID": "b85901baa3d8e5250241deca5e2ca612",
     "id": null,
     "metadata": {},
     "name": "pagesQuery",
     "operationKind": "query",
-    "text": "query pagesQuery {\n  viewer {\n    email\n    ...TaskLists_user\n    id\n  }\n}\n\nfragment TaskList on TaskListGQL {\n  id\n  title\n}\n\nfragment TaskLists_user on UserGQL {\n  taskLists(first: 10) {\n    edges {\n      node {\n        ...TaskList\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
+    "text": "query pagesQuery {\n  viewer {\n    email\n    ...TaskLists_user\n    id\n  }\n}\n\nfragment TaskListRow on TaskListGQL {\n  id\n  title\n}\n\nfragment TaskLists_user on UserGQL {\n  taskLists(first: 10) {\n    edges {\n      node {\n        ...TaskListRow\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
   }
 };
 })();

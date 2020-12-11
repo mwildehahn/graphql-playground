@@ -12,6 +12,9 @@ import {
   GraphQLResponse,
 } from "relay-runtime";
 
+const STORE_ENTRIES = 150;
+const STORE_CACHE_RELEASE_TIME = 2 * 60 * 1000; // 2 mins
+
 let relayEnvironment: Environment;
 
 // Define a function that fetches the results of an operation (query/mutation/etc)
@@ -44,7 +47,10 @@ function createEnvironment(initialRecords: any): Environment {
   return new Environment({
     // Create a network layer from the fetch function
     network: Network.create(fetchQuery),
-    store: new Store(new RecordSource(initialRecords)),
+    store: new Store(new RecordSource(initialRecords), {
+      gcReleaseBufferSize: STORE_ENTRIES,
+      queryCacheExpirationTime: STORE_CACHE_RELEASE_TIME,
+    }),
   });
 }
 

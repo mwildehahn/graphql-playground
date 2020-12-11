@@ -9,7 +9,7 @@ export type TaskLists_user = {
         readonly edges: ReadonlyArray<{
             readonly __id: string;
             readonly node: {
-                readonly " $fragmentRefs": FragmentRefs<"TaskList">;
+                readonly " $fragmentRefs": FragmentRefs<"TaskListRow">;
             } | null;
         } | null> | null;
     } | null;
@@ -103,7 +103,7 @@ return {
                 {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "TaskList"
+                  "name": "TaskListRow"
                 }
               ],
               "storageKey": null
@@ -170,5 +170,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = 'a79f3e28e6b48b2c9820a29acc72163e';
+(node as any).hash = '18ac304acd4fcdb90b28075ce0247ed3';
 export default node;

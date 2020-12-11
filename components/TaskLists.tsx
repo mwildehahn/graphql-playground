@@ -1,5 +1,5 @@
-import { graphql, useFragment, usePaginationFragment } from "react-relay/hooks";
-import TaskList from "./TaskList";
+import { graphql, usePaginationFragment } from "react-relay/hooks";
+import TaskListRow from "./TaskListRow";
 import { TaskLists_user$key } from "./__generated__/TaskLists_user.graphql";
 
 interface PropTypes {
@@ -20,7 +20,7 @@ function TaskLists({ user }: PropTypes) {
           edges {
             __id
             node {
-              ...TaskList
+              ...TaskListRow
             }
           }
         }
@@ -31,7 +31,7 @@ function TaskLists({ user }: PropTypes) {
 
   const items = data.taskLists.edges.map((edge) => (
     <div key={edge.__id} className="p-6">
-      <TaskList list={edge.node} />
+      <TaskListRow list={edge.node} />
     </div>
   ));
 

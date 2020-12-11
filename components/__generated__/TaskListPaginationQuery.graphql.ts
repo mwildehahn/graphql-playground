@@ -34,7 +34,7 @@ query TaskListPaginationQuery(
   }
 }
 
-fragment TaskList on TaskListGQL {
+fragment TaskListRow on TaskListGQL {
   id
   title
 }
@@ -43,7 +43,7 @@ fragment TaskLists_user_1G22uz on UserGQL {
   taskLists(after: $cursor, first: $count) {
     edges {
       node {
-        ...TaskList
+        ...TaskListRow
         id
         __typename
       }
@@ -271,14 +271,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "20f629b3ab336691f458ed5cdfbb78da",
+    "cacheID": "e2834604d5b0bb635de5e558d54737d2",
     "id": null,
     "metadata": {},
     "name": "TaskListPaginationQuery",
     "operationKind": "query",
-    "text": "query TaskListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...TaskLists_user_1G22uz\n    id\n  }\n}\n\nfragment TaskList on TaskListGQL {\n  id\n  title\n}\n\nfragment TaskLists_user_1G22uz on UserGQL {\n  taskLists(after: $cursor, first: $count) {\n    edges {\n      node {\n        ...TaskList\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
+    "text": "query TaskListPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...TaskLists_user_1G22uz\n    id\n  }\n}\n\nfragment TaskListRow on TaskListGQL {\n  id\n  title\n}\n\nfragment TaskLists_user_1G22uz on UserGQL {\n  taskLists(after: $cursor, first: $count) {\n    edges {\n      node {\n        ...TaskListRow\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
   }
 };
 })();
-(node as any).hash = 'a79f3e28e6b48b2c9820a29acc72163e';
+(node as any).hash = '18ac304acd4fcdb90b28075ce0247ed3';
 export default node;
